@@ -1,0 +1,112 @@
+<template>
+  <div id="container2">
+    <div id="example2"></div>
+    <!-- <div id="heart"></div> -->
+  </div>
+</template>
+
+<script>
+import { loadGoogleCharts } from "vue-google-charts";
+import { eventBus } from "../main.js";
+
+export default {
+  components: {},
+  computed: {
+    anomaly() {
+      return this.$store.getters.getAnomaly;
+    },
+  },
+  data: function() {
+    return {};
+  },
+  methods: {
+    drawGraph() {
+      loadGoogleCharts("current", { packages: ["corechart"] }).then((google) => {
+        var container = document.getElementById("container2");
+        var example = document.getElementById("example2");
+        var chart = new google.visualization.LineChart(example);
+        var dataTable = new google.visualization.DataTable();
+
+        let point = "point { size: 10; shape-type: star; fill-color: blue; }";
+        let x = new Array();
+        x.push(["Day", "expected value", "EDA", { type: "string", role: "style" }]);
+
+        for (let i = 0; i < this.anomaly["eda"]["timestamp"].length; i++) {
+          let p = null;
+          if (this.anomaly["eda"]["isAnomaly"][i] == true) {
+            p = point;
+          }
+          x.push([i, parseFloat(this.anomaly["eda"]["expectedValues"][i]), parseFloat(this.anomaly["eda"]["value"][i]), p]);
+        }
+
+        var data = google.visualization.arrayToDataTable(x);
+
+        var chartOption = {
+          timeline: {
+            groupByRowLabel: true,
+            showRowLabels: false,
+          },
+          width: "100%",
+          colors: ["#a50f15"],
+          hAxis: {
+            minValue: 0,
+            maxValue: 260000,
+          },
+        };
+        var option1 = {
+          width: "100%",
+          hAxis: {
+            // title: "Time",
+            textPosition: "none",
+          },
+          vAxis: {
+            // title: "X",
+            // ticks: [-1, 0, 1],
+          },
+          legend: {
+            position: "top",
+          },
+          curveType: "function",
+          explorer: {
+            actions: ["dragToZoom", "rightClickToReset"],
+          },
+          axisTitlePosition: "none",
+          chartArea: {
+            left: 30,
+            right: 30,
+            // bottom: 30,
+          },
+          colors: ["EABD5C", "#AC557A"],
+          pointSize: 5,
+        };
+
+        chart.draw(data, option1);
+      });
+    },
+  },
+  watch: {},
+  mounted() {
+    this.drawGraph();
+  },
+  beforeDestroy() {},
+};
+</script>
+
+<style scoped>
+#container2 {
+  position: relative;
+  width: 100%;
+  /* left: 3%; */
+  /* height: 35px; */
+  /* margin-top: 50px; */
+}
+
+#example2 {
+  /* margin: 2% 0; */
+}
+/* .verticalLine {
+  border-left: 10px solid #000000;
+} */
+#heart {
+}
+</style>
