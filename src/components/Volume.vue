@@ -1,7 +1,7 @@
 <template>
-  <div id="container4">
-    <div id="example4"></div>
-  </div>
+  <!-- <div id="container4"> -->
+  <div id="example4"></div>
+  <!-- </div> -->
 </template>
 
 <script>
@@ -24,56 +24,59 @@ export default {
   },
   methods: {
     drawGraph() {
-      loadGoogleCharts("current", { packages: ["corechart"] }).then((google) => {
-        var container = document.getElementById("container4");
+      loadGoogleCharts("current", { packages: ["corechart", "line"] }).then((google) => {
+        // var container = document.getElementById("container4");
         var example4 = document.getElementById("example4");
         var chart = new google.visualization.LineChart(example4);
         var dataTable = new google.visualization.DataTable();
 
-        let point = "point { size: 5; shape-type: star; fill-color: blue; }";
-        let point2 = "point { size: 5; shape-type: star; fill-color: red; }";
-
         let x = new Array();
-        x.push(["Day", "low", "high", "Db", { type: "string", role: "style" }]);
+        x.push(["Time", "low", "high", "volume", { type: "string", role: "style" }]);
+        let point = "point { size: 8; shape-type: star; fill-color: #a52714; }";
+        let highPoint = "point { size: 8; shape-type: star; fill-color: red; }";
+        let lowPoint = "point { size: 8; shape-type: star; fill-color: blue; }";
 
-        for (let i = 0; i < this.anomaly["volume"]["timestamp"].length; i++) {
-          let value = parseFloat(this.anomaly["volume"]["value"][i]);
-          let nextValue = parseFloat(this.anomaly["volume"]["value"][i + 1]);
-
+        for (let i = 0; i < this.anomaly["volume"]["volumes"].length; i++) {
+          let t = parseInt(this.anomaly["volume"]["talk"][i][0] / 1000);
+          let v = parseFloat(this.anomaly["volume"]["volumes"][i]);
           let p = null;
-          if ((value >= -15) & (nextValue < -15)) p = point;
-          if ((value < -35) & (value > -50)) p = point2;
-
-          if (value < -50) value = -50;
-          x.push([i, -35, -15, value, p]);
+          if (v >= -15) {
+            p = highPoint;
+          } else if (v <= -35) {
+            p = lowPoint;
+          } else {
+            p = point;
+          }
+          x.push([String(t), -35, -15, v, p]);
         }
 
         var data = google.visualization.arrayToDataTable(x);
-
         var options = {
-          width: "100%",
-          hAxis: {
-            // title: "Time",
-            // textPosition: "none",
-          },
-          vAxis: {
-            // ticks: [5, 10, 15, 20, 25, 30, 35, 40, 45],
-          },
+          // width: "120%",
+          height: 350,
           legend: {
             position: "top",
           },
-          curveType: "function",
-          explorer: {
-            actions: ["dragToZoom", "rightClickToReset"],
-          },
-          axisTitlePosition: "none",
           chartArea: {
-            left: 30,
-            right: 30,
-            // bottom: 30,
+            width: 500,
           },
-          // colors: ["#222767", "#00B850", "#93E675", "#C000F5"],
-          pointSize: 0.01,
+          series: {
+            0: { color: "#e2431e" },
+            1: {
+              color: "#e7711b",
+            },
+            2: {
+              lineWidth: 4,
+              color: "#f1ca3a",
+            },
+          },
+          // colors: ["blue"],
+          pointSize: 1,
+          dataOpacity: 7,
+          crosshair: {
+            trigger: "both",
+            orientation: "vertical",
+          },
         };
 
         chart.draw(data, options);
@@ -91,13 +94,13 @@ export default {
   /* position: absolute; */
   width: 100%;
 
-  /* height: 200px; */
+  height: 250px;
   z-index: 0;
 }
 #example4 {
-  position: relative;
+  /* position: relative; */
   /* margin: 5% 0; */
   /* width: 100%; */
-  /* height: 135px; */
+  /* height: 300px; */
 }
 </style>
