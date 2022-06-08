@@ -18,6 +18,9 @@
               >초
             </div>
           </div>
+          <!-- <EDA /> -->
+          <!-- <BVP /> -->
+          <!-- <HR /> -->
         </b-card>
       </b-card-group>
       <b-card header-tag="header" img-src="" img-alt="Card image" img-top>
@@ -28,19 +31,25 @@
           <h5 style="margin-top: 10px">목소리가 {{ voice["high"].length }}번 컸어요</h5>
           <div class="timestamp-wrapper">
             <div class="timestamp" v-for="(value, index) in voice['high']" v-bind:key="index">
-              <b-link class="link" @click.native="moveToAnomaly(3, value)">{{ value - 3 }} ~ {{ value }}</b-link>
+              <b-link class="link" @click.native="moveToAnomaly(0, value[0] / 1000)"
+                >{{ parseInt(value[0] / 1000) }} ~ {{ parseInt(value[1] / 1000) }}</b-link
+              >
             </div>
           </div>
           <h5 style="margin-top: 10px">목소리가 {{ voice["low"].length }}번 작았어요</h5>
           <div class="timestamp-wrapper">
             <div class="timestamp" v-for="(value, index) in voice['low']" v-bind:key="index">
-              <b-link class="link" @click.native="moveToAnomaly(3, value)">{{ value - 3 }} ~ {{ value }}</b-link>
+              <b-link class="link" @click.native="moveToAnomaly(0, value[0] / 1000)"
+                >{{ parseInt(value[0] / 1000) }} ~ {{ parseInt(value[1] / 1000) }}</b-link
+              >
             </div>
           </div>
           <h5 style="margin-top: 10px">이 때는 목소리가 적절했어요</h5>
           <div class="timestamp-wrapper">
             <div class="timestamp" v-for="(value, index) in voice['good']" v-bind:key="index">
-              <b-link class="link" @click.native="moveToAnomaly(3, value)">{{ value - 3 }} ~ {{ value }}</b-link>
+              <b-link class="link" @click.native="moveToAnomaly(0, value[0] / 1000)"
+                >{{ parseInt(value[0] / 1000) }} ~ {{ parseInt(value[1] / 1000) }}</b-link
+              >
             </div>
           </div>
         </div>
@@ -58,8 +67,8 @@
             <b-link class="link" @click.native="moveToAnomaly(0, value[0])">{{ value[0] }} ~ {{ value[1] }}</b-link>
           </div>
         </div>
-        <h5 style="margin-top: 10px">동료를 잘 봤어요</h5>
-        <div class="timstamp-wrapper">
+        <h5>동료를 잘 봤어요</h5>
+        <div class="timestamp-wrapper">
           <div class="timestamp" v-for="(value, index) in eye[0]" v-bind:key="index">
             <b-link class="link" @click.native="moveToAnomaly(0, value[0])">{{ value[0] }} ~ {{ value[1] }}</b-link>
           </div>
@@ -75,9 +84,12 @@
 import { eventBus } from "../main.js";
 import Voice from "./Volume.vue";
 import Eye from "./ConflictTimeLine.vue";
+import EDA from "./Eda.vue";
+import BVP from "./BVP.vue";
+import HR from "./HR.vue";
 
 export default {
-  components: { Voice, Eye },
+  components: { Voice, Eye, EDA, BVP, HR },
   props: {
     maxTime: null,
   },
@@ -86,8 +98,8 @@ export default {
       eye: null,
       voice: {
         high: [],
-        low: [],
         good: [],
+        low: [],
       },
       sensor: [
         {
@@ -140,32 +152,18 @@ export default {
   beforeMount() {
     let a = this.anomaly["anomaly"].slice();
     this.eye = this.anomaly["eye"].slice();
-
-    for (let i = 0; i < this.anomaly["volume"]["value"].length; i++) {
-      let value = this.anomaly["volume"]["value"][i];
-      let nextValue = this.anomaly["volume"]["value"][i + 1];
-      if (value < -50) continue;
-      else if ((value >= -15) & (nextValue < -15)) this.voice["high"].push(parseInt(i / 10));
-      else if ((value > -35) & (value < -15)) this.voice["good"].push(parseInt(i / 10));
-      else if (value < -35) this.voice["low"].push(parseInt(i / 10));
+    for (let i = 0; i < this.anomaly["volume"]["class"].length; i++) {
+      let c = this.anomaly["volume"]["class"][i];
+      let v = this.anomaly["volume"]["talk"][i];
+      if (c == 1) {
+        this.voice["high"].push(v);
+      } else if (c == -1) {
+        this.voice["low"].push(v);
+      } else {
+        this.voice["good"].push(v);
+      }
     }
-    this.voice["low"] = [...new Set(this.voice["low"])];
-    for (let i = 0; i < this.voice["low"].length - 3; i += 3) {
-      let value = this.voice["low"][i];
-      let a = new Array();
-      a.push(this.anomaly["volume"]["value"][value], this.anomaly["volume"]["value"][value + 1], this.anomaly["volume"]["value"][value + 2]);
-      console.log(a);
-      let small = a.every(function(v) {
-        if (v < -30) return false;
-        return true;
-      });
-
-      if (small === true) delete this.voice[i];
-    }
-    this.voice["low"] = this.makeChunk(3, this.voice["low"]);
-    this.voice["high"] = this.makeChunk(3, this.voice["high"]);
-    this.voice["good"] = this.makeChunk(3, this.voice["good"]);
-
+    // console.log(this.voice["high"]);
     this.sensor[0]["anomalyList"] = this.makeChunk(5, a);
   },
 };
