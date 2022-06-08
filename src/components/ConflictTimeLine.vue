@@ -128,8 +128,8 @@ export default {
         var chartOption = {
           timeline: {
             // groupByRowLabel: true,
-            showRowLabels: false,
-            showBarLabels: false,
+            // showRowLabels: false,
+            // showBarLabels: false,
           },
           height: 150,
           alternatingRowStyle: false,

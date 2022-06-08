@@ -32,14 +32,14 @@ export default {
 
         let point = "point { size: 10; shape-type: star; fill-color: blue; }";
         let x = new Array();
-        x.push(["Day", "expected value", "IBI", { type: "string", role: "style" }]);
-        for (let i = 0; i < this.anomaly["ibi"]["timestamp"].length; i++) {
+        x.push(["Day", "IBI", { type: "string", role: "style" }]);
+        for (let i = 0; i < this.anomaly["timestamp"].length; i++) {
           let p = null;
 
-          if (this.anomaly["ibi"]["isAnomaly"][i] == true) {
+          if (this.anomaly["ibi"]["point"][i] == true) {
             p = point;
           }
-          x.push([i, parseFloat(this.anomaly["ibi"]["expectedValues"][i]), parseFloat(this.anomaly["ibi"]["value"][i]), p]);
+          x.push([i, parseFloat(this.anomaly["ibi"]["value"][i]), p]);
         }
 
         var data = google.visualization.arrayToDataTable(x);
@@ -67,7 +67,7 @@ export default {
             right: 30,
             // bottom: 30,
           },
-          colors: ["EABD5C", "red"],
+          colors: ["red"],
           pointSize: 5,
         };
 

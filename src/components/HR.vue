@@ -43,14 +43,14 @@ export default {
 
         let x = new Array();
 
-        x.push(["Day", "expected value", "HR", { type: "string", role: "style" }]);
-        for (let i = 0; i < this.anomaly["hr"]["timestamp"].length; i++) {
+        x.push(["Day", "HR", { type: "string", role: "style" }]);
+        for (let i = 0; i < this.anomaly["timestamp"].length; i++) {
           let p = null;
-
-          if (this.anomaly["hr"]["isAnomaly"][i] == true) {
+          let value = parseInt(this.anomaly["hr"]["value"][i]);
+          if (this.anomaly["hr"]["point"][i] == true) {
             p = point;
           }
-          x.push([i, parseFloat(this.anomaly["hr"]["expectedValues"][i]), parseFloat(this.anomaly["hr"]["value"][i]), p]);
+          x.push([i, value, p]);
         }
 
         var data = google.visualization.arrayToDataTable(x);
@@ -78,8 +78,9 @@ export default {
             right: 30,
             // bottom: 30,
           },
-          colors: ["#EABD5C", "red"],
-          pointSize: 5,
+          colors: ["red"],
+          pointSize: 1,
+          dataOpacity: 0.7,
         };
 
         chart.draw(data, option1);

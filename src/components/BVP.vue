@@ -32,18 +32,17 @@ export default {
 
         let point = "point { size: 10; shape-type: star; fill-color: blue; }";
         let x = new Array();
-        x.push(["Day", "expected value", "BVP", { type: "string", role: "style" }]);
+        x.push(["Day", "BVP", { type: "string", role: "style" }]);
 
-        for (let i = 0; i < this.anomaly["bvp"]["timestamp"].length; i++) {
+        for (let i = 0; i < this.anomaly["timestamp"].length; i++) {
           let p = null;
 
-          if (this.anomaly["bvp"]["isAnomaly"][i] == true) {
+          if (this.anomaly["bvp"]["point"][i] == true) {
             p = point;
           }
           x.push([
             i,
             // this.anomaly["bvp"]["timestamp"][i],
-            parseFloat(this.anomaly["bvp"]["expectedValues"][i]),
             parseFloat(this.anomaly["bvp"]["value"][i]),
             p,
           ]);
@@ -74,7 +73,7 @@ export default {
             right: 30,
             // bottom: 30,
           },
-          colors: ["#EABD5C", "red"],
+          colors: ["red"],
           tooltip: { trigger: "both" },
           selectionMode: "multiple",
           crosshair: {
@@ -82,16 +81,16 @@ export default {
             orientation: "vertical",
           },
           series: {
-            0: {
-              lineWidth: 5,
-              lineDashStyle: [4, 4],
-            },
+            // 0: {
+            //   lineWidth: 5,
+            //   lineDashStyle: [4, 4],
+            // },
             // 1: {
             //   lineWidth: 5,
             //   lineDashStyle: [7, 2, 4, 3],
             // },
           },
-          pointSize: 5,
+          pointSize: 1,
           dataOpacity: 0.7,
         };
 

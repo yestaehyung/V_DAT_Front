@@ -99,7 +99,7 @@ export default {
     HR: () => import("../components/HR.vue"),
     IBI: () => import("../components/IBI.vue"),
     Eye: () => import("../components/EyeTracker.vue"),
-    EDA: () => import("../components/EdaTimeLine.vue"),
+    EDA: () => import("../components/Eda.vue"),
     BVP: () => import("../components/BVP.vue"),
     TMP: () => import("../components/TMP.vue"),
     Loud: () => import("../components/LoudTimeLine.vue"),
@@ -108,8 +108,7 @@ export default {
   data() {
     return {
       componentKeys: null,
-      videoUrl:
-        "https://dt1amnyxy57si.cloudfront.net/videos/PilotStudy - C_1_1 - PC, Mac & Linux Standalone - Unity 2020.3.4f1 Personal _DX11_ 2022-04-01 19-39-57.mp4",
+      videoUrl: "https://dt1amnyxy57si.cloudfront.net/videos/2022-06-07 16-43-56.mkv",
       fetched: true,
       controlledTime: 0,
       maxTime: null,
@@ -255,7 +254,7 @@ export default {
 
 .player-part {
   display: flex;
-  margin-top: 450px;
+  margin-top: 400px;
   width: 50%;
   padding: 0px 3rem;
 }
