@@ -10,7 +10,7 @@ export default new Vuex.Store({
     voice: null,
     sensor: null,
     anomaly: null,
-  
+    video:null
   },
   getters: {
     getSensor(state){
@@ -21,6 +21,9 @@ export default new Vuex.Store({
     },
     getAnomaly(state){
       return state.anomaly
+    },
+getVideo(state){
+      return state.video
     }
   },
   mutations: {
@@ -32,6 +35,9 @@ export default new Vuex.Store({
     },
     addAnomaly: function(state, payload){
       state.anomaly = payload.anomaly;
+    },
+    addVideo: function(state, payload){
+      state.video = payload.video;
     }
   },
   actions: {

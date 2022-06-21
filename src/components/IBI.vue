@@ -30,7 +30,7 @@ export default {
         var chart = new google.visualization.LineChart(example8);
         var dataTable = new google.visualization.DataTable();
 
-        let point = "point { size: 10; shape-type: star; fill-color: blue; }";
+        let point = "point { size: 10; shape-type: star; fill-color: #FF00CC; }";
         let x = new Array();
         x.push(["Day", "IBI", { type: "string", role: "style" }]);
         for (let i = 0; i < this.anomaly["timestamp"].length; i++) {
@@ -67,8 +67,13 @@ export default {
             right: 30,
             // bottom: 30,
           },
-          colors: ["red"],
-          pointSize: 5,
+          series: {
+            0: {
+              lineWidth: 3,
+              color: "#572a1a",
+            },
+          },
+          pointSize: 1,
         };
 
         chart.draw(data, option1);

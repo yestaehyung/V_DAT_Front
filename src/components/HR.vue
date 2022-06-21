@@ -39,7 +39,7 @@ export default {
         //   x.push([i, parseFloat(this.anomaly["value"][i])]);
         // }
         // dataTable.addRows(x);
-        let point = "point { size: 10; shape-type: star; fill-color: blue; }";
+        let point = "point { size: 10; shape-type: star; fill-color: #FF00CC; }";
 
         let x = new Array();
 
@@ -78,9 +78,14 @@ export default {
             right: 30,
             // bottom: 30,
           },
-          colors: ["red"],
+          series: {
+            0: {
+              lineWidth: 3,
+              color: "#572a1a",
+            },
+          },
           pointSize: 1,
-          dataOpacity: 0.7,
+          dataOpacity: 1,
         };
 
         chart.draw(data, option1);

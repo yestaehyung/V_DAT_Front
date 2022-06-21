@@ -32,9 +32,10 @@ export default {
 
         let x = new Array();
         x.push(["Time", "low", "high", "volume", { type: "string", role: "style" }]);
-        let point = "point { size: 8; shape-type: star; fill-color: #a52714; }";
-        let highPoint = "point { size: 8; shape-type: star; fill-color: red; }";
-        let lowPoint = "point { size: 8; shape-type: star; fill-color: blue; }";
+
+        let goodPoint = "point { size: 3; shape-type: circle; fill-color: #603913; }";
+        let highPoint = "point { size: 8; shape-type: star; fill-color: #603913; }";
+        let lowPoint = "point { size: 8; shape-type: star; fill-color: #603913; }";
 
         for (let i = 0; i < this.anomaly["volume"]["volumes"].length; i++) {
           let t = parseInt(this.anomaly["volume"]["talk"][i][0] / 1000);
@@ -45,7 +46,7 @@ export default {
           } else if (v <= -35) {
             p = lowPoint;
           } else {
-            p = point;
+            p = goodPoint;
           }
           x.push([String(t), -35, -15, v, p]);
         }
@@ -61,9 +62,15 @@ export default {
             width: 500,
           },
           series: {
-            0: { color: "#e2431e" },
+            0: {
+              lineWidth: 1,
+              lineDashStyle: [10, 2],
+              color: "red",
+            },
             1: {
-              color: "#e7711b",
+              lineWidth: 1,
+              lineDashStyle: [10, 2],
+              color: "blue",
             },
             2: {
               lineWidth: 4,
@@ -71,7 +78,7 @@ export default {
             },
           },
           // colors: ["blue"],
-          pointSize: 1,
+          pointSize: 0.5,
           dataOpacity: 7,
           crosshair: {
             trigger: "both",

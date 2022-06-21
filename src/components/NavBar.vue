@@ -35,14 +35,31 @@
 import axios from "axios";
 export default {
   name: "NavBar",
+  data() {
+    return {
+      // video: "",
+    };
+  },
   methods: {
     sendData() {
+      // const frm = new FormData();
+      // frm.append("name", "이름");
+      // frm.append("key", "값");
+      // axios.get("http://127.0.0.1:5000/hello", frm).then((res) => {
+      //   console.log(res.data["This is"]);
+      //   alert(res.data);
+      // });
       axios.get("http://127.0.0.1:5000/sensor", {}).then((res) => {
         alert("데이터가 도착했습니다.");
         this.$store.commit("addAnomaly", {
           anomaly: res.data,
         });
       });
+    },
+  },
+  computed: {
+    video() {
+      return this.$store.getters.getVideo;
     },
   },
 };

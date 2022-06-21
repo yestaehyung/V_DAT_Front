@@ -22,6 +22,7 @@
               value.title
             }}</b-button>
           </div> -->
+        {{ video }}
         <div class="checkbox-parts">
           <div class="box">
             <b-form-checkbox v-model="selectAll" @change="select" size="sm" switch>Select All</b-form-checkbox>
@@ -108,7 +109,7 @@ export default {
   data() {
     return {
       componentKeys: null,
-      videoUrl: "https://dt1amnyxy57si.cloudfront.net/videos/2022-06-07 16-43-56.mkv",
+      videoUrl: "https://dt1amnyxy57si.cloudfront.net/videos/2022-06-11 14-34-07.mkv",
       fetched: true,
       controlledTime: 0,
       maxTime: null,
@@ -177,6 +178,9 @@ export default {
     },
     anomaly() {
       return this.$store.getters.getAnomaly;
+    },
+    video() {
+      return this.$store.getters.getVideo;
     },
   },
 

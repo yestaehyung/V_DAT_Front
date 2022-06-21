@@ -30,7 +30,7 @@ export default {
         var chart = new google.visualization.LineChart(example8);
         var dataTable = new google.visualization.DataTable();
 
-        let point = "point { size: 10; shape-type: star; fill-color: blue; }";
+        let point = "point { size: 10; shape-type: star; fill-color: #FF00CC; }";
         let x = new Array();
         x.push(["Day", "TMP", { type: "string", role: "style" }]);
 
@@ -74,13 +74,13 @@ export default {
             trigger: "both",
             orientation: "vertical",
           },
-          // series: {
-          //   0: {
-          //     lineWidth: 5,
-          //     lineDashStyle: [4, 4],
-          //   },
-          // },
-          pointSize: 5,
+          series: {
+            0: {
+              lineWidth: 3,
+              color: "#1c91c0",
+            },
+          },
+          pointSize: 1,
         };
 
         chart.draw(data, option1);

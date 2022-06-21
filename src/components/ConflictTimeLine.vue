@@ -72,59 +72,59 @@ export default {
 
         var data = google.visualization.arrayToDataTable(x);
 
-        // google.visualization.events.addListener(chart, "ready", function() {
-        //   var incrementBy;
-        //   var valueCurrent;
-        //   var valueLast;
-        //   var labelIndex = 0;
-        //   var labels = container.getElementsByTagName("text");
+        google.visualization.events.addListener(chart, "ready", function() {
+          var incrementBy;
+          var valueCurrent;
+          var valueLast;
+          var labelIndex = 0;
+          var labels = container.getElementsByTagName("text");
 
-        //   Array.prototype.forEach.call(labels, function(label) {
-        //     // find x-axis labels by fill attribute
-        //     // make sure rect is a background row
-        //     var rects = container.getElementsByTagName("rect");
-        //     Array.prototype.forEach.call(rects, function(rect) {
-        //       // // remove border
-        //       // if (rect.getAttribute("stroke") === "#9a9a9a") {
-        //       //   rect.setAttribute("stroke-width", "0");
-        //       // }
-        //       // make sure rect is a background row
-        //       if (rect.getAttribute("x") === "0" && rect.getAttribute("stroke") === "none") {
-        //         // determine existing color
-        //         if (rect.getAttribute("fill") === "#ffffff") {
-        //           rect.setAttribute("fill", "white");
-        //         } else {
-        //           rect.setAttribute("fill", "white");
-        //         }
-        //       }
-        //     });
-        //     var paths = container.getElementsByTagName("path");
-        //     // remove border
-        //     Array.prototype.forEach.call(paths, function(path) {
-        //       if (path.getAttribute("stroke") === "#ffffff" || path.getAttribute("stroke") === "#e6e6e6") {
-        //         path.setAttribute("stroke", "#F0F0F0");
-        //       }
-        //     });
+          Array.prototype.forEach.call(labels, function(label) {
+            // find x-axis labels by fill attribute
+            // make sure rect is a background row
+            var rects = container.getElementsByTagName("rect");
+            Array.prototype.forEach.call(rects, function(rect) {
+              // // remove border
+              // if (rect.getAttribute("stroke") === "#9a9a9a") {
+              //   rect.setAttribute("stroke-width", "0");
+              // }
+              // make sure rect is a background row
+              if (rect.getAttribute("x") === "0" && rect.getAttribute("stroke") === "none") {
+                // determine existing color
+                if (rect.getAttribute("fill") === "#ffffff") {
+                  rect.setAttribute("fill", "white");
+                } else {
+                  rect.setAttribute("fill", "white");
+                }
+              }
+            });
+            var paths = container.getElementsByTagName("path");
+            // remove border
+            Array.prototype.forEach.call(paths, function(path) {
+              if (path.getAttribute("stroke") === "#ffffff" || path.getAttribute("stroke") === "#e6e6e6") {
+                path.setAttribute("stroke", "#F0F0F0");
+              }
+            });
 
-        //     if (label.getAttribute("fill") === "#000000") {
-        //       label.setAttribute("fill", "#ffffff");
-        //       valueCurrent = parseInt(label.textContent);
-        //       if (labelIndex === 1) {
-        //         incrementBy = valueCurrent - valueLast;
-        //       }
+            if (label.getAttribute("fill") === "#000000") {
+              label.setAttribute("fill", "#ffffff");
+              valueCurrent = parseInt(label.textContent);
+              if (labelIndex === 1) {
+                incrementBy = valueCurrent - valueLast;
+              }
 
-        //       if (labelIndex > 0) {
-        //         if (valueCurrent < valueLast) {
-        //           valueCurrent = valueLast + incrementBy;
-        //           label.textContent = valueCurrent;
-        //         }
-        //       }
+              if (labelIndex > 0) {
+                if (valueCurrent < valueLast) {
+                  valueCurrent = valueLast + incrementBy;
+                  label.textContent = valueCurrent;
+                }
+              }
 
-        //       valueLast = valueCurrent;
-        //       labelIndex++;
-        //     }
-        //   });
-        // });
+              valueLast = valueCurrent;
+              labelIndex++;
+            }
+          });
+        });
         var chartOption = {
           timeline: {
             // groupByRowLabel: true,
@@ -133,12 +133,8 @@ export default {
           },
           height: 150,
           alternatingRowStyle: false,
-
+          colors: ["#cbb69d", "#603913", "#c69c6e"],
           width: "100%",
-          hAxis: {
-            minValue: 0,
-            // maxValue: 260000,
-          },
         };
 
         chart.draw(data, chartOption);
