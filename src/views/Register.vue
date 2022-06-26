@@ -7,7 +7,7 @@
       <div class="card-wrapper">
         <b-card>
           <b-form>
-            <!-- <b-form-group
+            <b-form-group
               label-cols-sm="4"
               label-cols-lg="3"
               content-cols-sm
@@ -16,7 +16,8 @@
               label-size="lg"
               label-for="input-horizontal"
             >
-              <b-form-input placeholder="동영상 링크" size="lg" v-model="form.video"> </b-form-input>
+              <b-form-input placeholder="동영상 이름" size="lg" v-model="form.video"> </b-form-input>
+              {{ form.video }}
             </b-form-group>
             <b-form-group
               label-cols-sm="4"
@@ -27,8 +28,8 @@
               label-size="lg"
               label-for="input-horizontal"
             >
-              <b-form-input placeholder="오디오 링크" size="lg" v-model="form.audio"> </b-form-input>
-            </b-form-group> -->
+              <b-form-input placeholder="오디오 이름" size="lg" v-model="form.voice"> </b-form-input>
+            </b-form-group>
             <b-form-group
               label-cols-sm="4"
               label-cols-lg="3"
@@ -38,13 +39,14 @@
               label-size="lg"
               label-for="input-horizontal"
             >
-              <b-form-file ref="file" placeholder="csv 파일 업로드" size="lg" v-model="form.csvFile" :state="Boolean(form.csvFile)"></b-form-file>
+              <b-form-file ref="file" placeholder="csv 파일 업로드" size="lg" v-model="file" :state="Boolean(file)"></b-form-file>
               <!-- <b-button class="mt-2" @click="form.csvFile = null">Clear</b-button> -->
-              <!-- <form action="http://127.0.0.1:5000/eda" method="POST" enctype="multipart/form-data">
+              <!-- <form action="http://192.168.0.4:8080/sensor" method="get" enctype="multipart/form-data">
                 <input type="file" name="file" />
                 <input type="submit" />
               </form> -->
             </b-form-group>
+
             <div class="btn-wrapper">
               <b-button size="lg" @click="[$router.push('/main'), sendData()]">
                 v-dat에 연결
@@ -52,9 +54,11 @@
             </div>
           </b-form>
         </b-card>
+        <!-- <div>
+          <v-file-input label="File input" @change="selectFile"></v-file-input>
+          <v-btn @click="submit">서버에 전송하기</v-btn>
+        </div> -->
       </div>
-      <!-- {{ form.video }} -->
-      <!-- {{ form.audio }} -->
     </body>
   </div>
 </template>
@@ -73,41 +77,51 @@ export default {
   },
   data() {
     return {
+      image: "test image",
       form: {
         video: null,
-        audio: null,
-        csvFile: null,
+        voice: null,
+        file: null,
       },
+      file: null,
     };
   },
   methods: {
-    sendData() {
-      const fd = new FormData();
-      // fd.append("video", this.form.video);
-      // fd.append("audio", this.form.audio);
-      // fd.append("file", this.form.csvFile);
-      // const data = null;
-      // axios
-      //   .post("http://192.168.1.6:80/eda", fd, {
-      //     headers: {
-      //       "Content-Type": "multipart/form-data",
-      //     },
-      //   })
-      //   .then((result) => {
-      //     this.$store.commit("addSensor", {
-      //       sensor: result.data,
-      //     });
-      //   });
-      // axios.get("http://192.168.1.6:80/voice", {}).then((res) => {
-      //   this.$store.commit("addVoice", {
-      //     voice: res.data,
-      //   });
-      // });
-      axios.get("http://127.0.0.1:5000/sensor", {}).then((res) => {
-        this.$store.commit("addAnomaly", {
-          anomaly: res.data,
+    async submit() {
+      const formdata = new FormData();
+      formdata.append("file", this.image);
+
+      try {
+        const { data } = await axios.get("http://192.168.0.4:8080/sensor", formdata, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         });
-      });
+        console.log(data);
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    sendData() {
+      let formData = new FormData();
+      formData.append("file", this.file);
+      formData.append("voice", this.form.voice);
+      try {
+        axios
+          .post("http://192.168.0.4:8080/sensor", formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          })
+          .then((result) => {
+            alert("데이터가 도착했습니다.");
+            this.$store.commit("addAnomaly", {
+              anomaly: result.data,
+            });
+          });
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
 };
