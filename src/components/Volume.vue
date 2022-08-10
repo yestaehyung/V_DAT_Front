@@ -31,7 +31,7 @@ export default {
         var dataTable = new google.visualization.DataTable();
 
         let x = new Array();
-        x.push(["Time", "low", "high", "volume", { type: "string", role: "style" }]);
+        x.push(["Time", "낮아요", "커요", "목소리 크기", { type: "string", role: "style" }]);
 
         let goodPoint = "point { size: 3; shape-type: circle; fill-color: #603913; }";
         let highPoint = "point { size: 8; shape-type: star; fill-color: #603913; }";

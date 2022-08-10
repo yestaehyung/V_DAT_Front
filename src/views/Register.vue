@@ -16,8 +16,7 @@
               label-size="lg"
               label-for="input-horizontal"
             >
-              <b-form-input placeholder="동영상 이름" size="lg" v-model="form.video"> </b-form-input>
-              {{ form.video }}
+              <b-form-input placeholder="동영상 이름" size="lg" v-model="video"> </b-form-input>
             </b-form-group>
             <b-form-group
               label-cols-sm="4"
@@ -28,7 +27,7 @@
               label-size="lg"
               label-for="input-horizontal"
             >
-              <b-form-input placeholder="오디오 이름" size="lg" v-model="form.voice"> </b-form-input>
+              <b-form-input placeholder="오디오 이름" size="lg" v-model="voice"> </b-form-input>
             </b-form-group>
             <b-form-group
               label-cols-sm="4"
@@ -74,41 +73,50 @@ export default {
     sensor() {
       return this.$store.getters.getSensor;
     },
+    video() {
+      return this.$store.getters.getVideo;
+    },
   },
   data() {
     return {
-      image: "test image",
-      form: {
-        video: null,
-        voice: null,
-        file: null,
-      },
+      video: null,
+      voice: null,
       file: null,
     };
   },
   methods: {
-    async submit() {
-      const formdata = new FormData();
-      formdata.append("file", this.image);
+    // async submit() {
+    //   const formdata = new FormData();
+    //   formdata.append("file", this.image);
 
-      try {
-        const { data } = await axios.get("http://192.168.0.4:8080/sensor", formdata, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
-        console.log(data);
-      } catch (err) {
-        console.log(err);
-      }
-    },
+    //   try {
+    //     const { data } = await axios.get("http://192.168.0.4:8080/sensor", formdata, {
+    //       headers: {
+    //         "Content-Type": "multipart/form-data",
+    //       },
+    //     });
+    //     console.log(data);
+    //   } catch (err) {
+    //     console.log(err);
+    //   }
+    // },
     sendData() {
+      let url = "https://dt1amnyxy57si.cloudfront.net/videos/";
+      this.$store.commit("addVideo", {
+        video: url.concat(this.video),
+      });
+
       let formData = new FormData();
       formData.append("file", this.file);
-      formData.append("voice", this.form.voice);
+      formData.append("voice", this.voice);
+
+      axios.get("http://52.78.162.30:8080/hello", {}).then((result) => {
+        alert("server is alive");
+      });
+
       try {
         axios
-          .post("http://192.168.0.4:8080/sensor", formData, {
+          .post("http://52.78.162.30:8080/sensor", formData, {
             headers: {
               "Content-Type": "multipart/form-data",
             },
@@ -120,7 +128,8 @@ export default {
             });
           });
       } catch (error) {
-        console.log(error);
+        // console.log(error);
+        alert(error);
       }
     },
   },

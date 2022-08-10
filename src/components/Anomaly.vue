@@ -6,11 +6,11 @@
       <b-card-group>
         <b-card header-tag="header" img-src="" img-alt="Card image" img-top>
           <template #header>
-            <h6 class="mb-0">이 시간에 긴장 했어요</h6>
+            <h6 class="mb-0">이 때 당황하셨나요?</h6>
           </template>
           <div>
-            <h5>체험하는 동안 {{ sensor[0]["anomalyList"].length }}번 긴장했어요</h5>
-            <h6>긴장한 시점:</h6>
+            <!-- <h5>체험하는 동안 {{ sensor[0]["anomalyList"].length }}번 긴장했어요</h5> -->
+            <h6>당황한 시점:</h6>
           </div>
           <div class="timestamp-wrapper">
             <div class="timestamp" v-for="(value, index) in sensor[0]['anomalyList']" v-bind:key="index">

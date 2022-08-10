@@ -43,7 +43,7 @@ export default {
 
         let x = new Array();
 
-        x.push(["Day", "HR", { type: "string", role: "style" }]);
+        x.push(["Day", "심장 박동", { type: "string", role: "style" }]);
         for (let i = 0; i < this.anomaly["timestamp"].length; i++) {
           let p = null;
           let value = parseInt(this.anomaly["hr"]["value"][i]);

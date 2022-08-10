@@ -32,7 +32,7 @@ export default {
 
         let point = "point { size: 10; shape-type: star; fill-color: #FF00CC; }";
         let x = new Array();
-        x.push(["Day", "BVP", { type: "string", role: "style" }]);
+        x.push(["Day", "맥박", { type: "string", role: "style" }]);
 
         for (let i = 0; i < this.anomaly["timestamp"].length; i++) {
           let p = null;

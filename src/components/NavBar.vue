@@ -11,11 +11,11 @@
     <b-collapse id="nav-collapse" is-nav>
       <!-- Right aligned nav items -->
       <b-navbar-nav class="ml-auto">
-        <b-nav-form>
+        <!-- <b-nav-form>
           <b-input size="sm" class="input" placeholder="동영상 이름을 넣어주세요"></b-input>
           <b-button size="sm" class="button" type="submit">보기</b-button>
         </b-nav-form>
-        <b-button @click="sendData()">데이터 받기</b-button>
+        <b-button @click="sendData()">데이터 받기</b-button> -->
         <!-- <b-nav-item-dropdown right>
           Using 'button-content' slot
           <template #button-content>
@@ -49,12 +49,6 @@ export default {
       //   console.log(res.data["This is"]);
       //   alert(res.data);
       // });
-      axios.get("http://127.0.0.1:5000/sensor", {}).then((res) => {
-        alert("데이터가 도착했습니다.");
-        this.$store.commit("addAnomaly", {
-          anomaly: res.data,
-        });
-      });
     },
   },
   computed: {

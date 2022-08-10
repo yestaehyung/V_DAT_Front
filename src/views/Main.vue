@@ -5,15 +5,9 @@
     </header>
     <div class="content-wrapper">
       <div class="player-part">
-        <Player
-          ref="videoPlayer"
-          v-if="fetched"
-          :controlledTime="timeChanged"
-          @timeSync="timeSync"
-          :videoUrl="videoUrl"
-          @gotTotalTime="gotTotalTime"
-        />
+        <Player ref="videoPlayer" v-if="fetched" :controlledTime="timeChanged" @timeSync="timeSync" :videoUrl="video" @gotTotalTime="gotTotalTime" />
       </div>
+
       <div class="verticalLine"></div>
 
       <div class="contents-part">
@@ -22,10 +16,9 @@
               value.title
             }}</b-button>
           </div> -->
-        {{ video }}
         <div class="checkbox-parts">
           <div class="box">
-            <b-form-checkbox v-model="selectAll" @change="select" size="sm" switch>Select All</b-form-checkbox>
+            <b-form-checkbox v-model="selectAll" @change="select" size="sm" switch>모두 보기</b-form-checkbox>
           </div>
 
           <div class="box" v-for="(value, index) in menu.slice(0, 3)" v-bind:key="index">
@@ -127,40 +120,40 @@ export default {
         },
         {
           icon: "https://dt1amnyxy57si.cloudfront.net/assets/headset.png",
-          title: "Voice",
+          title: "목소리",
           checked: false,
         },
         {
           icon: "https://dt1amnyxy57si.cloudfront.net/assets/observation.png",
-          title: "Eye Tracker",
+          title: "눈움직임",
           checked: false,
         },
         {
-          title: "BVP",
+          title: "맥박",
           checked: false,
         },
         {
-          title: "TMP",
-          checked: false,
-        },
-        {
-          icon: "https://dt1amnyxy57si.cloudfront.net/assets/dialog.png",
-          title: "HR",
+          title: "피부온도",
           checked: false,
         },
         {
           icon: "https://dt1amnyxy57si.cloudfront.net/assets/dialog.png",
-          title: "IBI",
+          title: "심장박동",
+          checked: false,
+        },
+        {
+          icon: "https://dt1amnyxy57si.cloudfront.net/assets/dialog.png",
+          title: "심박간격",
           checked: false,
         },
         {
           icon: "https://dt1amnyxy57si.cloudfront.net/assets/emotion.png",
-          title: "EDA",
+          title: "피부 전기 활동",
           checked: false,
         },
         {
           icon: "https://dt1amnyxy57si.cloudfront.net/assets/voice-command.png",
-          title: "목소리 크기",
+          title: "눈 움직임",
           checked: false,
         },
       ],
@@ -250,7 +243,8 @@ export default {
 }
 
 .content-wrapper {
-  height: 250vh;
+  /* height: 250vh; */
+  height: auto;
   background-color: #f2f2f2;
   display: flex;
   justify-content: space-around;
@@ -258,9 +252,18 @@ export default {
 
 .player-part {
   display: flex;
-  margin-top: 400px;
+  margin-top: 550px;
   width: 50%;
-  padding: 0px 3rem;
+  /* padding: 0px 3rem; */
+
+  /* position: -webkit-sticky;
+  position: sticky;
+  top: 0; */
+  display: inline-block;
+  padding: 0.6rem;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
 }
 
 .contents-part {

@@ -22,7 +22,7 @@ export default new Vuex.Store({
     getAnomaly(state){
       return state.anomaly
     },
-getVideo(state){
+    getVideo(state){
       return state.video
     }
   },
@@ -46,7 +46,7 @@ getVideo(state){
   },
   plugins: [
     createPersistedState({
-      path: ['anomaly']
+      // path: ['anomaly','video']
     })
   ]
 

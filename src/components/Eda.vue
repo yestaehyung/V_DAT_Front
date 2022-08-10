@@ -28,7 +28,7 @@ export default {
 
         let point = "point { size: 10; shape-type: star; fill-color: #FF00CC; }";
         let x = new Array();
-        x.push(["Day", "EDA", { type: "string", role: "style" }]);
+        x.push(["Day", "피부 전기 활동", { type: "string", role: "style" }]);
 
         for (let i = 0; i < this.anomaly["timestamp"].length; i++) {
           let p = null;
